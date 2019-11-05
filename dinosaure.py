@@ -3,21 +3,24 @@ from pygame.locals import *
 
 class Dino():
 
-	def __init__(self, y):
+	def __init__(self, fond):
 		self.perso = pygame.image.load("dino.png").convert_alpha() 
-		self.perso = pygame.transform.smoothscale(perso,(fond.get_width()//5,fond.get_height()//5))
-		self.y = y
+		self.perso = pygame.transform.smoothscale(self.perso,(self.perso.get_width()//5,self.perso.get_height()//5))
 		self.saut = False
-		self.perso_x=50
-		self.perso_y=680
+		# self.perso_x = 50
+		# self.perso_y = 680
+		self.rectangle = pygame.Rect((50,650),self.perso.get_size())
 		
 	def sauter(self):
 		if self.saut == True:
 			return True
 
+	def blit(self, fenetre):
+		fenetre.blit(self.perso, (self.rectangle.x, self.rectangle.y))
 
 
-pygame.init()
+
+pygame.display.init()
 
 #ouverture de la fenêtre pygame.
 
@@ -29,14 +32,12 @@ fenetre = pygame.display.set_mode(fond.get_size(),RESIZABLE)
 
 fenetre.blit(fond,(0,0))
 
-perso = pygame.image.load("dino.png").convert_alpha() 
-perso = pygame.transform.smoothscale(perso,(fond.get_width()//5,fond.get_height()//5))
-perso_x=50
-perso_y=680
-
-fenetre.blit(perso, (perso_x,perso_y))
-
-
+# perso = pygame.image.load("dino.png").convert_alpha() 
+# perso = pygame.transform.smoothscale(perso,(fond.get_width()//5,fond.get_height()//5))
+# perso_x=50
+# perso_y=680
+perso = Dino(fond)
+perso.blit(fenetre)
 
 continuer=1
 while continuer:
@@ -50,9 +51,11 @@ while continuer:
 
 		elif event.type == KEYDOWN:
 			if event.key == K_SPACE:
-				continuer=1	
+				perso.rectangle.move_ip(0,-50)
 
-
+	fenetre.blit(fond,(0,0))
+	perso.blit(fenetre)
 	pygame.display.flip()
+
 
 pygame.display.quit()
