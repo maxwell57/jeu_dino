@@ -31,7 +31,9 @@ while continuer:
 		if event.type == QUIT:
 			continuer = 0
 
-		elif envent.type == K_SCAPE:
+		elif event.type == KEYDOWN:
+			if event.key == K_SPACE:
+				continuer=1
 
 
 	pygame.display.flip()
