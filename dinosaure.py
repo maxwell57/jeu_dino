@@ -17,7 +17,10 @@ perso = pygame.image.load("dino.png").convert_alpha()
 perso = pygame.transform.smoothscale(perso,(fond.get_width()//5,fond.get_height()//5))
 perso_x=50
 perso_y=550
+
 fenetre.blit(perso, (perso_x,perso_y))
+
+
 
 continuer=1
 while continuer:
@@ -25,8 +28,11 @@ while continuer:
 	pygame.time.Clock().tick(30)
 
 	for event in pygame.event.get():
-		if event.type==QUIT:
-			continuer=0
+		if event.type == QUIT:
+			continuer = 0
+
+		elif envent.type == K_SCAPE:
+
 
 	pygame.display.flip()
 
