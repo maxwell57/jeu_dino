@@ -3,7 +3,7 @@ from pygame.locals import *
 
 pygame.init()
 
-#ouverture de la fenêtre pygame
+#ouverture de la fenêtre pygame.
 
 fenetre = pygame.display.set_mode((0, 0))
 
