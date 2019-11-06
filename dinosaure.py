@@ -1,69 +1,73 @@
 import pygame
 from pygame.locals import *
 
-class Dino():
+class Dino(pygame.sprite.Sprite):
 
 	def __init__(self, fond):
-		
-		self.perso = pygame.image.load("dino.png").convert_alpha() 
-		self.perso = pygame.transform.smoothscale(self.perso,(self.perso.get_width()//5, self.perso.get_height()//5))
+
+		pygame.sprite.Sprite.__init__(self)		
+		self.image = pygame.image.load("dino.png").convert_alpha() 
+		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//5, self.image.get_height()//5))
 		self.saut = False
 		# self.perso_x = 50
 		# self.perso_y = 680
-		self.rectangle = pygame.Rect((50, 650), self.perso.get_size())           #creation du rectangle de perso
+		self.rect = pygame.Rect((50, 650), self.image.get_size())           #
 		
 	def sauter(self):
 		if self.saut == True:
 			return True
 
 	def blit(self, fenetre):
-		fenetre.blit(self.perso, (self.rectangle.x, self.rectangle.y))
+		fenetre.blit(self.image, (self.rect.x, self.rect.y))
 
-class Mur():
-
-	def __init__(self):
-
-		self.cactus = pygame.image.load("carre.png").convert_alpha()
-		self.cactus = pygame.transform.smoothscale(self.cactus,(self.cactus.get_width()//10, self.cactus.get_height()//10))
-		self.taille_mur = pygame.Rect((1000,740),self.cactus.get_size())          #création du rectangle de cactus
-
-	def blit(self, fenetre):
-		fenetre.blit(self.cactus, (self.taille_mur.x, self.taille_mur.y))
-		self.taille_mur.x=self.taille_mur.x-1
-		if self.taille_mur.x<=0:
-			self.taille_mur.x=1000
-
-class Mur2():
+class Mur(pygame.sprite.Sprite):
 
 	def __init__(self):
 
-		self.zozio = pygame.image.load("carre.png").convert_alpha()
-		self.zozio = pygame.transform.smoothscale(self.zozio,(self.zozio.get_width()//10, self.zozio.get_height()//10))
-		self.taille_zozio = pygame.Rect((1500,450),self.zozio.get_size())          #création du rectangle de zozio
+		pygame.sprite.Sprite.__init__(self)
+		self.image = pygame.image.load("carre.png").convert_alpha()
+		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
+		self.rect = pygame.Rect((1000,740),self.image.get_size())          
 
 	def blit(self, fenetre):
-		fenetre.blit(self.zozio, (self.taille_zozio.x, self.taille_zozio.y))
-		self.taille_zozio.x=self.taille_zozio.x-1
-		if self.taille_zozio.x<=0:
-			self.taille_zozio.x=1500			
+		fenetre.blit(self.image, (self.rect.x, self.rect.y))
+		self.rect.x=self.rect.x-1
+		if self.rect.x<=0:
+			self.rect.x=1000
 
-def collision(rectangle, taille_mur):	
-	if rectangle.right < taille_mur.left:
-		print("ok")
-		test=0
-	elif rectangle.bottom < taille_mur.top:
-		print("ok")
-		test=0
-	elif rectangle.left > taille_mur.right:
-		print("ok")
-		test=0
-	elif rectangle.top > taille_mur.bottom:
-		print("ok")
-		test=0
-	else:
-		print("collision !!")
-		test=1
-	return test
+class Mur2(pygame.sprite.Sprite):
+
+	def __init__(self):
+
+		pygame.sprite.Sprite.__init__(self)
+		self.image = pygame.image.load("carre.png").convert_alpha()
+		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
+		self.rect = pygame.Rect((1500,450),self.image.get_size())          
+
+	def blit(self, fenetre):
+		fenetre.blit(self.image, (self.rect.x, self.rect.y))
+		self.rect.x=self.rect.x-1
+		if self.rect.x<=0:
+			self.rect.x=1500			
+
+# def collision(rect, rect):	
+# 	if rect.right < rect.left:
+# 		print("ok")
+# 		test=0
+# 	elif rect.bottom < rect.top:
+# 		print("ok")
+# 		test=0
+# 	elif rect.left > rect.right:
+# 		print("ok")
+# 		test=0
+# 	elif rect.top > rect.bottom:
+# 		print("ok")
+# 		test=0
+# 	else:
+# 		print("collision !!")
+# 		test=1
+# 	return test
+
 
 		
 
@@ -104,17 +108,17 @@ while continuer:
 
 		elif event.type == KEYDOWN:
 			if event.key == K_SPACE:
-				perso.rectangle.move_ip(0,-200)
+				perso.rect.move_ip(0,-200)
 		elif event.type == KEYUP:
 			if event.key == K_SPACE:
-				perso.rectangle.move_ip(0,+200)
+				perso.rect.move_ip(0,+200)
 	
 
 	fenetre.blit(fond,(0,0))
 	perso.blit(fenetre)
 	cactus.blit(fenetre)
 	zozio.blit(fenetre)
-	test=collision(perso.rectangle, cactus.taille_mur) #test la collision entr le rectangle "perso" et le rectangle "cactus"
+	# test=collision(perso.rect, cactus.rect) #test la collision entr le rect "perso" et le rect "cactus"
 	
 	# if test==1:
 	# 	break
