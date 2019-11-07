@@ -117,7 +117,6 @@ class Mur2(pygame.sprite.Sprite):     #oeuf volant
 		self.rect.x=2000+r2*1000-randomchoice2
 
 
-
 # def collision(rect1, rect2):						#definition de collision
 # 	if rect1.right < rect2.left:
 # 		print("ok")
@@ -139,6 +138,9 @@ class Mur2(pygame.sprite.Sprite):     #oeuf volant
 
 pygame.display.init()
 
+pygame.font.init()
+
+
 #ouverture de la fenêtre pygame.
 
 fenetre = pygame.display.set_mode((0, 0))
@@ -147,7 +149,17 @@ fond = pygame.image.load("foret2.jpg").convert()
 fond = pygame.transform.smoothscale(fond, (fond.get_width()//4, fond.get_height()//4))
 fenetre = pygame.display.set_mode(fond.get_size(), RESIZABLE)
 
+
 fenetre.blit(fond,(0,0))
+
+font=pygame.font.Font(pygame.font.get_default_font(),50)
+
+
+
+
+# myfont = pygame.font.SysFont("monospace", 16)
+# score_display = myfont.render(score, 1, (0,0,0))
+# screen.blit(score_display, (100, 100))
 
 # perso = pygame.image.load("dino.png").convert_alpha() 
 # perso = pygame.transform.smoothscale(perso,(fond.get_width()//5,fond.get_height()//5)).
@@ -161,22 +173,27 @@ zozio = Mur2()
 cactus_groupe.add(cactus, zozio)
 continuer=1
 i=1
+randomchoice1 = 10
+randomchoice2 = 10
+randomchoice3 = 740
+compteur_de_point=0
+
+
 
 while continuer:
-	randomchoice1 = 10
-	randomchoice2 = 10
-	randomchoice3 = 740
-	pygame.time.Clock().tick(250)
+	
+	pygame.time.Clock().tick(100)
+	surface_font=font.render("Dinozoscore :" + str(compteur_de_point), True, (255,0,0))
 
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			continuer = 0
 		elif event.type == KEYUP:
 			if event.key == K_SPACE:
-				perso.sprite.rect.y=630
+				perso.sprite.rect.y=430
 		elif event.type == KEYDOWN:
 			if event.key == K_SPACE:
-				perso.sprite.rect.move_ip(0,-200)
+				perso.sprite.rect.move_ip(0,-400)
 		
 	
 
@@ -191,16 +208,18 @@ while continuer:
 	for sprite in cactus_groupe.sprites():
 		
 			sprite.mouvement()
-	test = pygame.sprite.spritecollide(perso.sprite,cactus_groupe, False) #test la collision entre le rect "perso" et le rect "cactus"
+	test = pygame.sprite.spritecollide(perso.sprite,cactus_groupe,False) #test la collision entre le rect "perso" et le rect "cactus"
 	# print(test)	
 
 	#r=random.randint(0, 1)
 																		#revoie une liste de sprite
 	if len(test)>0:
-		randomchoice1 = random.choice([1,10, 100])
-		randomchoice2 = random.choice([1,10, 100])		
-		randomchoice3 = random.choice([740,500,600])
-		print((randomchoice1, randomchoice2, randomchoice3))
+		randomchoice1 = random.choice([5,10, 20])
+		randomchoice2 = random.choice([5,10, 20])		
+		randomchoice3 = random.choice([740,600,300,150])
+		# print((randomchoice1, randomchoice2, randomchoice3))
+		compteur_de_point+=1
+		print(compteur_de_point)
 		for oeuf in test:
 			# chance=random.randint(0, 1)
 			# print(chance)
@@ -212,9 +231,10 @@ while continuer:
 			i=0
 	perso.draw(fenetre)
 
-
+	fenetre.blit(surface_font,(0,0))
 	pygame.display.flip()
 
+	
 
 
 pygame.display.quit()
