@@ -1,7 +1,11 @@
 import pygame
 from pygame.locals import *
+import math
+import random
 
 class Dino(pygame.sprite.Sprite):
+
+
 
 	def __init__(self, fond):
 
@@ -11,7 +15,7 @@ class Dino(pygame.sprite.Sprite):
 		self.saut = False
 		# self.perso_x = 50
 		# self.perso_y = 680
-		self.rect = pygame.Rect((50, 650), self.image.get_size())           #
+		self.rect = pygame.Rect((50, 630), self.image.get_size())           #
 		
 	def sauter(self):
 		if self.saut == True:
@@ -30,7 +34,7 @@ class Dino2(pygame.sprite.Sprite):
 		self.saut = False
 		# self.perso_x = 50
 		# self.perso_y = 680
-		self.rect = pygame.Rect((50, 650), self.image.get_size())           #
+		self.rect = pygame.Rect((50, 630), self.image.get_size())           #
 		
 	def sauter(self):
 		if self.saut == True:
@@ -49,7 +53,7 @@ class Dino3(pygame.sprite.Sprite):
 		self.saut = False
 		# self.perso_x = 50
 		# self.perso_y = 680
-		self.rect = pygame.Rect((50, 650), self.image.get_size())           #
+		self.rect = pygame.Rect((50, 630), self.image.get_size())           #
 		
 	def sauter(self):
 		if self.saut == True:
@@ -60,45 +64,57 @@ class Dino3(pygame.sprite.Sprite):
 
 Dinos=[Dino, Dino2, Dino3]								#créer
 
+ # renvoie un élément au hasard.
 
 
-class Mur(pygame.sprite.Sprite):
+
+class Mur(pygame.sprite.Sprite):   #oeuf glissant
 
 	def __init__(self):
 
 		pygame.sprite.Sprite.__init__(self)
 		self.image = pygame.image.load("carre.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
-		self.rect = pygame.Rect((2100,740),self.image.get_size())
+		self.rect = pygame.Rect((2000, 740), self.image.get_size())
 
 	def mouvement(self):
 		# fenetre.blit(self.image, (self.rect.x, self.rect.y))
-		self.rect.x=self.rect.x-5
+		self.rect.x=self.rect.x-randomchoice1
 		if self.rect.x<=0:
-			self.rect.x=1000
+			self.rect.x=2000
+
+		
 
 
 	def reset(self):
-		self.rect.x=1000
+		r1=random.random()
+		self.rect.x = 2500+r1*1000
+		self.rect.y = randomchoice3
 
-class Mur2(pygame.sprite.Sprite):
+class Mur2(pygame.sprite.Sprite):     #oeuf volant
 
 	def __init__(self):
 
 		pygame.sprite.Sprite.__init__(self)
 		self.image = pygame.image.load("carre.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
-		self.rect = pygame.Rect((2200,450),self.image.get_size())          
+		self.rect = pygame.Rect((2500,450), self.image.get_size())          
 
 	def mouvement(self):
 		# fenetre.blit(self.image, (self.rect.x, self.rect.y))
-		self.rect.x=self.rect.x-10
+		
+		self.rect.x=self.rect.x-randomchoice2
+		
+		self.rect.y=250*math.cos((self.rect.x)/150)+250
+
+		# print((self.rect.x,self.rect.y)) # affiche les coordonnées du mur 2 à chaque frame
 		if self.rect.x<=0:
-			self.rect.x=1333		
+			self.rect.x=2500	
     
 
 	def reset(self):
-		self.rect.x=1333
+		r2=random.random()
+		self.rect.x=2000+r2*1000-randomchoice2
 
 
 
@@ -145,16 +161,19 @@ zozio = Mur2()
 cactus_groupe.add(cactus, zozio)
 continuer=1
 i=1
+
 while continuer:
-	
-	pygame.time.Clock().tick(120)
+	randomchoice1 = 10
+	randomchoice2 = 10
+	randomchoice3 = 740
+	pygame.time.Clock().tick(250)
 
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			continuer = 0
 		elif event.type == KEYUP:
 			if event.key == K_SPACE:
-				perso.sprite.rect.y=650
+				perso.sprite.rect.y=630
 		elif event.type == KEYDOWN:
 			if event.key == K_SPACE:
 				perso.sprite.rect.move_ip(0,-200)
@@ -167,13 +186,25 @@ while continuer:
 	# cactus.mouvement()
 	# cactus.blit(fenetre)
 	# zozio.blit(fenetre)
+
 	cactus_groupe.draw(fenetre)
 	for sprite in cactus_groupe.sprites():
-		sprite.mouvement()
-	test = pygame.sprite.spritecollide(perso.sprite,cactus_groupe,False) #test la collision entre le rect "perso" et le rect "cactus"
-	print(test)																		#revoie une liste de sprite
+		
+			sprite.mouvement()
+	test = pygame.sprite.spritecollide(perso.sprite,cactus_groupe, False) #test la collision entre le rect "perso" et le rect "cactus"
+	# print(test)	
+
+	#r=random.randint(0, 1)
+																		#revoie une liste de sprite
 	if len(test)>0:
+		randomchoice1 = random.choice([1,10, 100])
+		randomchoice2 = random.choice([1,10, 100])		
+		randomchoice3 = random.choice([740,500,600])
+		print((randomchoice1, randomchoice2, randomchoice3))
 		for oeuf in test:
+			# chance=random.randint(0, 1)
+			# print(chance)
+			# if chance == 1:
 			oeuf.reset()
 		perso.add(Dinos[i](fond))
 		i=i+1
@@ -187,3 +218,9 @@ while continuer:
 
 
 pygame.display.quit()
+
+# if rock.x < 0:
+#     y = random.randint(0, 400)    #essai random
+#     rock = Rock(640, y)
+
+# rock.rock()
