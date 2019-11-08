@@ -11,7 +11,7 @@ class Dino(pygame.sprite.Sprite):
 
 		pygame.sprite.Sprite.__init__(self)		
 		self.image = pygame.image.load("dino.png").convert_alpha() 
-		self.image = pygame.transform.smoothscale(self.image,(200, 200))
+		self.image = pygame.transform.smoothscale(self.image, (200, 200))
 		self.saut = False
 		# self.perso_x = 50
 		# self.perso_y = 680
@@ -74,15 +74,17 @@ class Mur(pygame.sprite.Sprite):   #oeuf glissant
 
 		pygame.sprite.Sprite.__init__(self)
 		self.image = pygame.image.load("carre.png").convert_alpha()
-		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
+		self.image = pygame.transform.smoothscale(self.image, (self.image.get_width()//10, self.image.get_height()//10))
 		self.rect = pygame.Rect((2000, 740), self.image.get_size())
 
 	def mouvement(self):
 		# fenetre.blit(self.image, (self.rect.x, self.rect.y))
 		self.rect.x=self.rect.x-randomchoice1
 		if self.rect.x<=0:
-			self.rect.x=2000
-
+			self.reset()
+			# self.rect.x=2000
+			return True
+		return False
 		
 
 
@@ -90,6 +92,8 @@ class Mur(pygame.sprite.Sprite):   #oeuf glissant
 		r1=random.random()
 		self.rect.x = 2500+r1*1000
 		self.rect.y = randomchoice3
+		print(randomchoice3)
+		
 
 class Mur2(pygame.sprite.Sprite):     #oeuf volant
 
@@ -109,12 +113,16 @@ class Mur2(pygame.sprite.Sprite):     #oeuf volant
 
 		# print((self.rect.x,self.rect.y)) # affiche les coordonnées du mur 2 à chaque frame
 		if self.rect.x<=0:
-			self.rect.x=2500	
+			self.reset()
+			return True
+		return False
+			# self.rect.x=2500	
     
 
 	def reset(self):
 		r2=random.random()
 		self.rect.x=2000+r2*1000-randomchoice2
+		
 
 
 # def collision(rect1, rect2):						#definition de collision
@@ -150,9 +158,9 @@ fond = pygame.transform.smoothscale(fond, (fond.get_width()//4, fond.get_height(
 fenetre = pygame.display.set_mode(fond.get_size(), RESIZABLE)
 
 
-fenetre.blit(fond,(0,0))
+fenetre.blit(fond, (0, 0))
 
-font=pygame.font.Font(pygame.font.get_default_font(),50)
+font=pygame.font.Font(pygame.font.get_default_font(), 50)
 
 
 
@@ -176,14 +184,17 @@ i=1
 randomchoice1 = 10
 randomchoice2 = 10
 randomchoice3 = 740
-compteur_de_point=0
-
+compteur_de_point = 0
+compteur_de_tour = 0
 
 
 while continuer:
 	
+	
+	
 	pygame.time.Clock().tick(100)
-	surface_font=font.render("Dinozoscore :" + str(compteur_de_point), True, (255,0,0))
+
+	surface_font=font.render("Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour), True, (255,0,0))
 
 	for event in pygame.event.get():
 		if event.type == QUIT:
@@ -194,6 +205,10 @@ while continuer:
 		elif event.type == KEYDOWN:
 			if event.key == K_SPACE:
 				perso.sprite.rect.move_ip(0,-400)
+		# elif envent.type == KEYDOWN:
+		# 	if envent.key == K_ESCAPE:
+
+
 		
 	
 
@@ -207,31 +222,39 @@ while continuer:
 	cactus_groupe.draw(fenetre)
 	for sprite in cactus_groupe.sprites():
 		
-			sprite.mouvement()
-	test = pygame.sprite.spritecollide(perso.sprite,cactus_groupe,False) #test la collision entre le rect "perso" et le rect "cactus"
+			if sprite.mouvement() == True:
+				compteur_de_tour+=1
+				print(compteur_de_tour)
+	test = pygame.sprite.spritecollide(perso.sprite, cactus_groupe, False) #test la collision entre le rect "perso" et le rect "cactus"
 	# print(test)	
 
 	#r=random.randint(0, 1)
-																		#revoie une liste de sprite
+		
+	randomchoice3 = random.choice([740, 600, 300, 150])																	
+																			#revoie une liste de sprite
 	if len(test)>0:
-		randomchoice1 = random.choice([5,10, 20])
-		randomchoice2 = random.choice([5,10, 20])		
-		randomchoice3 = random.choice([740,600,300,150])
+		
+		randomchoice1 = random.choice([5, 10, 20])
+		randomchoice2 = random.choice([5, 10, 20])		
+		
 		# print((randomchoice1, randomchoice2, randomchoice3))
-		compteur_de_point+=1
-		print(compteur_de_point)
+		
+		# print(compteur_de_point)
 		for oeuf in test:
+			compteur_de_point+=1
 			# chance=random.randint(0, 1)
 			# print(chance)
 			# if chance == 1:
 			oeuf.reset()
+			compteur_de_tour+=1
+			
 		perso.add(Dinos[i](fond))
 		i=i+1
 		if i>2:
 			i=0
 	perso.draw(fenetre)
 
-	fenetre.blit(surface_font,(0,0))
+	fenetre.blit(surface_font,(0, 0))
 	pygame.display.flip()
 
 	
