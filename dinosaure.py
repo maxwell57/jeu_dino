@@ -6,24 +6,17 @@ import random
 position_initial=(50,630)
 taille_image=(200,200)
 
-class Dino(pygame.sprite.Sprite):							#créaction de la classe Dino 
+class Dino(pygame.sprite.Sprite):												#créaction de la classe Dino 
 
 
 
-	def __init__(self, fond):								#attributs du Dino						
+	def __init__(self, fond):													#attributs du Dino						
 
-		pygame.sprite.Sprite.__init__(self)					#initialisation de sprite
+		pygame.sprite.Sprite.__init__(self)										#initialisation de sprite
 		self.image = pygame.image.load("dino.png").convert_alpha() 				#choix de l'image
-		self.image = pygame.transform.smoothscale(self.image, taille_image)
-		self.saut = False
-		# self.perso_x = 50
-		# self.perso_y = 680
-		self.rect = pygame.Rect(position_initial, self.image.get_size())           #
+		self.image = pygame.transform.smoothscale(self.image, taille_image)		#dimensionne l'image
+		self.rect = pygame.Rect(position_initial, self.image.get_size())        #création du rectangle de la taille de l'image
 		
-	def sauter(self):
-		if self.saut == True:
-			return True
-
 	def blit(self, fenetre):
 		fenetre.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -32,17 +25,12 @@ class Dino2(pygame.sprite.Sprite):
 	def __init__(self, fond):
 
 		pygame.sprite.Sprite.__init__(self)		
+
 		self.image = pygame.image.load("dino2.png").convert_alpha() 
 		self.image = pygame.transform.smoothscale(self.image, taille_image)
 		self.saut = False
-		# self.perso_x = 50
-		# self.perso_y = 680
-		self.rect = pygame.Rect(position_initial, self.image.get_size())           #
+		self.rect = pygame.Rect(position_initial, self.image.get_size())          
 		
-	def sauter(self):
-		if self.saut == True:
-			return True
-
 	def blit(self, fenetre):
 		fenetre.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -50,120 +38,77 @@ class Dino3(pygame.sprite.Sprite):
 
 	def __init__(self, fond):
 
-		pygame.sprite.Sprite.__init__(self)		
+		pygame.sprite.Sprite.__init__(self)	
+
 		self.image = pygame.image.load("dino3.png").convert_alpha() 
 		self.image = pygame.transform.smoothscale(self.image, taille_image)
 		self.saut = False
-		# self.perso_x = 50
-		# self.perso_y = 680
-		self.rect = pygame.Rect(position_initial, self.image.get_size())           #
+		self.rect = pygame.Rect(position_initial, self.image.get_size())           #création du rectangle de la taille de l'image
 		
-	def sauter(self):
-		if self.saut == True:
-			return True
-
 	def blit(self, fenetre):
 		fenetre.blit(self.image, (self.rect.x, self.rect.y))
 
-Dinos=[Dino, Dino2, Dino3]								#créer une liste de classes
-
- # renvoie un élément au hasard.
+Dinos=[Dino, Dino2, Dino3]															#création d'une liste de classes
 
 
-
-class Mur(pygame.sprite.Sprite):   #oeuf glissant (cactus)
+class Mur(pygame.sprite.Sprite):   													#oeuf glissant (cactus)
 
 	def __init__(self):
 
 		pygame.sprite.Sprite.__init__(self)
+
 		self.randomchoice1=random.choice([5, 10, 20])
 		self.image = pygame.image.load("carre.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image, (self.image.get_width()//10, self.image.get_height()//10))
 		self.rect = pygame.Rect((2000, 740), self.image.get_size())
 
 	def mouvement(self, randomchoice1):
-		# fenetre.blit(self.image, (self.rect.x, self.rect.y))
-		
+				
 		self.rect.x=self.rect.x-randomchoice1
 		if self.rect.x<=0:
 			self.reset()
-			# self.rect.x=2000
 			return True
 		return False
 		
-
-
 	def reset(self):
 
-		
-		randomchoice3 = random.choice([740, 600, 300, 150])	
+		randomchoice3 = random.choice([740, 600, 300, 150])						#initialisation des valeurs possibles de "y" pour l'oeuf
 		
 		r1=random.random()
-		self.randomchoice1=random.choice([5, 10, 20])
+		self.randomchoice1=random.choice([5, 10, 20])							#initialisation des valeurs possibles de 
 		self.rect.x = 2500+r1*1000
 		self.rect.y = randomchoice3
-		print(randomchoice3)
+				
 
-		
-
-class Mur2(pygame.sprite.Sprite):     #oeuf volant
+class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio)
 
 	def __init__(self):
 
 		pygame.sprite.Sprite.__init__(self)
+
 		self.randomchoice2 = random.choice([5, 10, 20])
 		self.image = pygame.image.load("carre.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
 		self.rect = pygame.Rect((2500,450), self.image.get_size())          
 
 	def mouvement(self, randomchoice2):
-		# fenetre.blit(self.image, (self.rect.x, self.rect.y))
-		self.rect.x=self.rect.x-randomchoice2
-		
-		self.rect.y=250*math.cos((self.rect.x)/150)+250						#permet le mouvement sinusoïdal de l'oeuf
+		self.rect.x=self.rect.x-randomchoice2									#permet la variation du point de départ de l'oeuf
+		self.rect.y=250*math.cos((self.rect.x)/150)+250							#permet le mouvement sinusoïdal de l'oeuf
 
-		# print((self.rect.x,self.rect.y)) # affiche les coordonnées du mur 2 à chaque frame
 		if self.rect.x<=0:
 			self.reset()
 			return True
 		return False
-			# self.rect.x=2500	
-    
-
+		
 	def reset(self):
 
 		self.randomchoice2 = random.choice([5, 10, 20])
 		r2=random.random()
 		self.rect.x=2000+r2*1000-self.randomchoice2        #permet de décaler l'apparition de l'oeuf
 
-		
-
-
-# def collision(rect1, rect2):						#definition de collision (remplacé par spritecollide)
-# 	if rect1.right < rect2.left:
-# 		print("ok")
-# 		test=0
-# 	elif rect1.bottom < rect2.top:      
-# 		print("ok")
-# 		test=0
-# 	elif rect1.left > rect2.right:
-# 		print("ok")
-# 		test=0
-# 	elif rect1.top > rect2.bottom:
-# 		print("ok")
-# 		test=0
-# 	else:
-# 		print("collision !!")
-# 		test=1
-# 	return test
-
-
 pygame.display.init()
 
 pygame.font.init()
-
-
-#ouverture de la fenêtre pygame.
 
 fenetre = pygame.display.set_mode((0, 0))
 
@@ -176,17 +121,6 @@ fenetre.blit(fond, (0, 0))
 
 font=pygame.font.Font(pygame.font.get_default_font(), 50)
 
-
-
-
-# myfont = pygame.font.SysFont("monospace", 16)
-# score_display = myfont.render(score, 1, (0,0,0))
-# screen.blit(score_display, (100, 100))
-
-# perso = pygame.image.load("dino.png").convert_alpha() 
-# perso = pygame.transform.smoothscale(perso,(fond.get_width()//5,fond.get_height()//5)).
-# perso_x=50
-# perso_y=680
 perso =  pygame.sprite.GroupSingle(Dino(fond))
 perso.draw(fenetre)
 
@@ -196,50 +130,41 @@ zozio = Mur2()
 cactus_groupe = pygame.sprite.Group()     
 cactus_groupe.add(cactus, zozio)    
 
-continuer=1
+#initialisation des variables
 i=1
-# randomchoice1 = 10
-# randomchoice2 = 10
-# randomchoice3 = 740
 compteur_de_point = 0
 compteur_de_tour = 0
-
+temps=0
+surface_score=0
 randomchoice1 = random.choice([5, 10, 20])
 randomchoice2 = random.choice([5, 10, 20])
+fin = 30000+random.random()*100000							#temps de jeu aléatoire entre 30s et 120s
+print(fin)
+while temps<fin:	
+	
+	pygame.time.Clock().tick(75)
 
-while continuer:
-	
-	
-	
-	pygame.time.Clock().tick(100)
+	temps =  pygame.time.get_ticks()
 
-	surface_font=font.render("Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour), True, (255,0,0))
+	#Définitions des surfaces de textes
+	surface_temps=font.render(str(temps),True,(0,0,0))
+	surface_font=font.render("Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour), True, (0,0,0))
+	surface_score=font.render("Temps de jeu écoulé, Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour)+" en "+str(temps/1000)+" secondes", True, (0,255,0))
+	surface_message = font.render("GROS NOOB !!", True, (0,0,0))
 
 	for event in pygame.event.get():
 		if event.type == QUIT:
-			continuer = 0
+			pygame.display.quit()
 		elif event.type == KEYUP:
 			if event.key == K_SPACE:
 				perso.sprite.rect.y=430
 		elif event.type == KEYDOWN:
 			if event.key == K_SPACE:
 				perso.sprite.rect.move_ip(0,-400)
-		# elif envent.type == KEYDOWN:
-		# 	if envent.key == K_ESCAPE:
-
-
-
 		
+	fenetre.blit(fond,(0,0))            #affiche le fond
 	
-
-	fenetre.blit(fond,(0,0))
-	
-	# zozio.mouvement()
-	# cactus.mouvement()
-	# cactus.blit(fenetre)
-	# zozio.blit(fenetre)
-
-	cactus_groupe.draw(fenetre)
+	cactus_groupe.draw(fenetre) 		#affiche les éléments du groupe sur la surface fenetre
 
 	for sprite in cactus_groupe.sprites():
 		
@@ -249,22 +174,14 @@ while continuer:
 
 
 	test = pygame.sprite.spritecollide(perso.sprite, cactus_groupe, False) #test la collision entre le rect "perso" et le rect "cactus"
-	# print(test)	
-
-	#r=random.randint(0, 1)
-																		
+																			
 	if len(test)>0:
 		
 		randomchoice1 = random.choice([5, 10, 20])
 		randomchoice2 = random.choice([5, 10, 20])			
-		# print((randomchoice1, randomchoice2, randomchoice3))
 		
-		# print(compteur_de_point)
 		for oeuf in test:
 			compteur_de_point+=1
-			# chance=random.randint(0, 1)
-			# print(chance)
-			# if chance == 1:
 			oeuf.reset()
 			compteur_de_tour+=1
 			
@@ -275,15 +192,20 @@ while continuer:
 	perso.draw(fenetre)
 
 	fenetre.blit(surface_font,(0, 0))
+	fenetre.blit(surface_temps,(1000,0))
+
 	pygame.display.flip()
 
 	
+fenetre.blit(surface_score, (200,200))
+pygame.display.flip()
 
+pygame.time.wait(2000)
+
+fenetre.blit(surface_message,(800,400))
+pygame.display.flip()
+
+pygame.time.wait(3000)
 
 pygame.display.quit()
 
-# if rock.x < 0:
-#     y = random.randint(0, 400)    #essai random
-#     rock = Rock(640, y)
-
-# rock.rock()
