@@ -8,7 +8,7 @@ taille_image=(200,200)
 
 class Dino(pygame.sprite.Sprite):												#créaction de la classe Dino 
 
-
+	
 
 	def __init__(self, fond):													#attributs du Dino						
 
@@ -87,7 +87,7 @@ class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		self.randomchoice2 = random.choice([5, 10, 20])
 		self.image = pygame.image.load("oeuf.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
-		self.rect = pygame.Rect((2500,450), self.image.get_size())          
+		self.rect = pygame.Rect((3000,450), self.image.get_size())          
 
 	def mouvement(self, randomchoice2, temps):
 		self.rect.x=self.rect.x-randomchoice2+math.cos(temps/1000)*math.cos(temps/1000)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
@@ -100,7 +100,7 @@ class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		
 	def reset(self):
 
-		self.randomchoice2 = random.choice([5,8,10])   #valeur que peut prendre le déplacement "x"
+		self.randomchoice2 = random.choice([5,5,8,8,9,10])   #valeur que peut prendre le déplacement "x"
 		r2=random.random()
 		self.rect.x=2000+r2*1000-self.randomchoice2          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
 
@@ -113,11 +113,11 @@ class Mur3(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		self.randomchoice2 = random.choice([5, 10, 20])
 		self.image = pygame.image.load("oeuf.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
-		self.rect = pygame.Rect((2500,450), self.image.get_size())          
+		self.rect = pygame.Rect((5000,450), self.image.get_size())          
 
 	def mouvement(self, randomchoice2, temps):
 		self.rect.x=self.rect.x-randomchoice2+math.sin(temps/1000)*math.cos(temps/1000)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
-		self.rect.y=250*math.sin((self.rect.x)/150)+250											#permet le mouvement sinusoïdal de l'oeuf
+		self.rect.y=250*math.sin((self.rect.x)/150)+450										#permet le mouvement sinusoïdal de l'oeuf
 
 		if self.rect.x<=0:																		#si le rectangle sort de l'écran  (abscisse rect.x inferieur à 0) 
 			self.reset()																		#Alors on appelle reset() qui redéplace le rectangle a une position aléatoire
@@ -126,9 +126,9 @@ class Mur3(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		
 	def reset(self):
 
-		self.randomchoice3 = random.choice([5,8,10])   #valeur que peut prendre le déplacement "x"
+		self.randomchoice3 = random.choice([5,8,8,8,10,10,20])   #valeur que peut prendre le déplacement "x"
 		r3=random.random()
-		self.rect.x=2000+r3*1000-self.randomchoice3          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
+		self.rect.x=2000+r3*2000-self.randomchoice3          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
 
 pygame.display.init()						                  #initialise tous mes modules pygame importés					
 pygame.font.init()											  #initialisation du module font
@@ -170,7 +170,9 @@ fin =  10000 + random.random()*100000						#temps de jeu aléatoire entre 10000m
 print(fin)
 while temps<fin:											#Début de la boucle de jeu
 	
-	pygame.time.Clock().tick(75)							
+	pygame.time.Clock().tick(75)		
+
+	
 
 	temps =  pygame.time.get_ticks()
 
@@ -227,7 +229,7 @@ while temps<fin:											#Début de la boucle de jeu
 	pygame.display.flip()
 
 	
-fenetre.blit(surface_score, (200,200))
+fenetre.blit(surface_score, (100,200))
 pygame.display.flip()
 
 pygame.time.wait(2000)
@@ -238,7 +240,7 @@ else:
 	fenetre.blit(surface_message1,(800,400))
 	pygame.display.flip()
 
-# pygame.time.wait(3000)
+pygame.time.wait(3000)
 
-# pygame.display.quit()
+pygame.display.quit()
 
