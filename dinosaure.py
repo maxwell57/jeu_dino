@@ -139,7 +139,7 @@ temps=0
 surface_score=0
 randomchoice1 = random.choice([5, 10, 20])					#initialisation des 2 random
 randomchoice2 = random.choice([5, 10, 20])
-fin = 30000+random.random()*100000							#temps de jeu aléatoire entre 30000ms et 120000ms
+fin =  10000 + random.random()*100000						#temps de jeu aléatoire entre 10000ms et 110000ms
 print(fin)
 while temps<fin:											#Début de la boucle de jeu
 	
@@ -151,7 +151,8 @@ while temps<fin:											#Début de la boucle de jeu
 	surface_temps=font.render(str(temps),True,(0,0,0))
 	surface_font=font.render("Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour), True, (0,0,0))
 	surface_score=font.render("Temps de jeu écoulé, Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour)+" en "+str(temps/1000)+" secondes", True, (0,255,0))
-	surface_message = font.render("PAS TERRIBLE !!", True, (0,0,0))
+	surface_message1 = font.render("PAS TERRIBLE !!", True, (0,0,0))
+	surface_message2 = font.render("BIEN JOUE !!", True, (0,0,0))
 
 	for event in pygame.event.get():								#gestion des évènements
 		if event.type == QUIT:
@@ -202,9 +203,12 @@ fenetre.blit(surface_score, (200,200))
 pygame.display.flip()
 
 pygame.time.wait(2000)
-
-fenetre.blit(surface_message,(800,400))
-pygame.display.flip()
+if compteur_de_point/compteur_de_tour>7/10:
+	fenetre.blit(surface_message2,(800,400))
+	pygame.display.flip()
+else:
+	fenetre.blit(surface_message1,(800,400))
+	pygame.display.flip()
 
 pygame.time.wait(3000)
 
