@@ -3,8 +3,8 @@ from pygame.locals import *
 import math
 import random
 
-position_initial=(50,630)
-taille_image=(200,200)
+position_initial=(50,700)
+taille_image=(100,100)
 
 class Dino(pygame.sprite.Sprite):												#créaction de la classe Dino 
 
@@ -90,7 +90,7 @@ class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		self.rect = pygame.Rect((3000,450), self.image.get_size())          
 
 	def mouvement(self, randomchoice2, temps):
-		self.rect.x=self.rect.x-randomchoice2+math.cos(temps/1000)*math.cos(temps/1000)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
+		self.rect.x=self.rect.x-randomchoice2+math.cos(temps/500)*math.cos(temps/1000)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
 		self.rect.y=250*math.cos((self.rect.x)/150)+250											#permet le mouvement sinusoïdal de l'oeuf
 
 		if self.rect.x<=0:																		#si le rectangle sort de l'écran  (abscisse rect.x inferieur à 0) 
@@ -116,7 +116,7 @@ class Mur3(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		self.rect = pygame.Rect((5000,450), self.image.get_size())          
 
 	def mouvement(self, randomchoice2, temps):
-		self.rect.x=self.rect.x-randomchoice2+math.sin(temps/1000)*math.cos(temps/1000)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
+		self.rect.x=self.rect.x-randomchoice2+math.sin(temps/1000)*math.cos(temps/500)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
 		self.rect.y=250*math.sin((self.rect.x)/150)+450										#permet le mouvement sinusoïdal de l'oeuf
 
 		if self.rect.x<=0:																		#si le rectangle sort de l'écran  (abscisse rect.x inferieur à 0) 
@@ -157,7 +157,7 @@ cactus_groupe = pygame.sprite.Group()     						#on instancie un container de ty
 cactus_groupe.add(cactus, zozio, zozio2)    							#On ajoute cactus et zozio dans ce container
 
 #initialisation des variables
-deplacement_vertical=105
+deplacement_vertical=75
 i=1
 compteur_de_point = 0
 compteur_de_tour = 0
@@ -168,6 +168,15 @@ randomchoice2 = random.choice([5, 10, 20])
 randomchoice3 = random.choice([3, 5, 20])
 fin =  10000 + random.random()*100000						#temps de jeu aléatoire entre 10000ms et 110000ms
 print(fin)
+
+
+pygame.mixer.init()	
+
+sond_fond = pygame.mixer.music.load("9162.mp3")
+
+
+pygame.mixer.music.play()
+
 while temps<fin:											#Début de la boucle de jeu
 	
 	pygame.time.Clock().tick(75)		
@@ -179,9 +188,10 @@ while temps<fin:											#Début de la boucle de jeu
 	#Définitions des surfaces de textes
 	surface_temps=font.render(str(temps),True,(0,0,0))
 	surface_font=font.render("Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour), True, (0,0,0))
-	surface_score=font.render("Temps de jeu écoulé, Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour)+" en "+str(temps/1000)+" secondes", True, (0,255,0))
+	surface_score=font.render("Temps de jeu écoulé, Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour)+" en "+str(temps/1000)+" secondes", True, (0,0,0))
 	surface_message1 = font.render("PAS TERRIBLE !!", True, (0,0,0))
 	surface_message2 = font.render("BIEN JOUE !!", True, (0,0,0))
+	surface_message3 = font.render("MOYEN !!", True, (0,0,0))
 
 	for event in pygame.event.get():								#gestion des évènements
 		if event.type == QUIT:
@@ -207,7 +217,9 @@ while temps<fin:											#Début de la boucle de jeu
 	test = pygame.sprite.spritecollide(perso.sprite, cactus_groupe, False) #test la collision entre le rect "perso" et le rect "cactus"
 																			
 	if len(test)>0:
-		
+		choix_aleatoire_son=random.choice(["3739.mp3", "3739.mp3","3739.mp3" , "16925.mp3"])
+												#initialise le module mixer
+		pygame.mixer.music.load(choix_aleatoire_son)
 		randomchoice1 = random.choice([5, 10, 20])
 		randomchoice2 = random.choice([5, 10, 20])	
 		randomchoice3 = random.choice([3, 5, 20])		
@@ -216,6 +228,7 @@ while temps<fin:											#Début de la boucle de jeu
 			compteur_de_point+=1
 			oeuf.reset()
 			compteur_de_tour+=1
+			pygame.mixer.music.play()
 			
 		perso.add(Dinos[i](fond))
 		i=i+1
@@ -224,7 +237,7 @@ while temps<fin:											#Début de la boucle de jeu
 	perso.draw(fenetre)
 
 	fenetre.blit(surface_font,(0, 0))
-	fenetre.blit(surface_temps,(1000,0))
+	fenetre.blit(surface_temps,(1500,0))
 
 	pygame.display.flip()
 
@@ -234,13 +247,16 @@ pygame.display.flip()
 
 pygame.time.wait(2000)
 if compteur_de_point/compteur_de_tour>7/10:
-	fenetre.blit(surface_message2,(800,400))
+	fenetre.blit(surface_message2,(600,400))
+	pygame.display.flip()
+elif compteur_de_point/compteur_de_tour<=1/2:
+	fenetre.blit(surface_message1,(600,400))
 	pygame.display.flip()
 else:
-	fenetre.blit(surface_message1,(800,400))
+	fenetre.blit(surface_message3,(600,400))
 	pygame.display.flip()
 
 pygame.time.wait(3000)
-
+pygame.mixer.quit()
 pygame.display.quit()
 
