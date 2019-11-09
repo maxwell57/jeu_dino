@@ -58,7 +58,7 @@ class Mur(pygame.sprite.Sprite):   													#oeuf glissant (cactus) classe q
 		pygame.sprite.Sprite.__init__(self)
 
 		self.randomchoice1=random.choice([5, 10, 20])
-		self.image = pygame.image.load("carre.png").convert_alpha()
+		self.image = pygame.image.load("oeuf.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image, (self.image.get_width()//10, self.image.get_height()//10))
 		self.rect = pygame.Rect((2000, 740), self.image.get_size())
 
@@ -87,7 +87,7 @@ class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		pygame.sprite.Sprite.__init__(self)
 
 		self.randomchoice2 = random.choice([5, 10, 20])
-		self.image = pygame.image.load("carre.png").convert_alpha()
+		self.image = pygame.image.load("oeuf.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
 		self.rect = pygame.Rect((2500,450), self.image.get_size())          
 
@@ -102,7 +102,7 @@ class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		
 	def reset(self):
 
-		self.randomchoice2 = random.choice([5,6,7,8,9,10])   #valeur que peut prendre le déplacement "x"
+		self.randomchoice2 = random.choice([5,8,10])   #valeur que peut prendre le déplacement "x"
 		r2=random.random()
 		self.rect.x=2000+r2*1000-self.randomchoice2          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
 
