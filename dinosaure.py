@@ -156,12 +156,12 @@ while temps<fin:											#Début de la boucle de jeu
 	for event in pygame.event.get():								#gestion des évènements
 		if event.type == QUIT:
 			pygame.display.quit()
-		elif event.type == KEYUP:
-			if event.key == K_SPACE:
-				perso.sprite.rect.y=430
 		elif event.type == KEYDOWN:
-			if event.key == K_SPACE:
-				perso.sprite.rect.move_ip(0,-400)
+			if event.key == K_UP:
+				perso.sprite.rect.y = perso.sprite.rect.y - 100
+			if event.key == K_DOWN:
+				perso.sprite.rect.y = perso.sprite.rect.y + 100
+				print(perso.sprite.rect.y)
 		
 	fenetre.blit(fond,(0,0))            #affiche le fond
 	
