@@ -28,7 +28,6 @@ class Dino2(pygame.sprite.Sprite):
 
 		self.image = pygame.image.load("dino2.png").convert_alpha() 
 		self.image = pygame.transform.smoothscale(self.image, taille_image)
-		self.saut = False
 		self.rect = pygame.Rect(position_initial, self.image.get_size())          
 		
 	def blit(self, fenetre):
@@ -42,7 +41,6 @@ class Dino3(pygame.sprite.Sprite):
 
 		self.image = pygame.image.load("dino3.png").convert_alpha() 
 		self.image = pygame.transform.smoothscale(self.image, taille_image)
-		self.saut = False
 		self.rect = pygame.Rect(position_initial, self.image.get_size())           #création du rectangle de la taille de l'image
 		
 	def blit(self, fenetre):
@@ -106,6 +104,32 @@ class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		r2=random.random()
 		self.rect.x=2000+r2*1000-self.randomchoice2          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
 
+class Mur3(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui hérite de pygame.sprite.Sprite
+
+	def __init__(self):
+
+		pygame.sprite.Sprite.__init__(self)
+
+		self.randomchoice2 = random.choice([5, 10, 20])
+		self.image = pygame.image.load("oeuf.png").convert_alpha()
+		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
+		self.rect = pygame.Rect((2500,450), self.image.get_size())          
+
+	def mouvement(self, randomchoice2, temps):
+		self.rect.x=self.rect.x-randomchoice2+math.sin(temps/1000)*math.cos(temps/1000)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
+		self.rect.y=250*math.sin((self.rect.x)/150)+250											#permet le mouvement sinusoïdal de l'oeuf
+
+		if self.rect.x<=0:																		#si le rectangle sort de l'écran  (abscisse rect.x inferieur à 0) 
+			self.reset()																		#Alors on appelle reset() qui redéplace le rectangle a une position aléatoire
+			return True
+		return False
+		
+	def reset(self):
+
+		self.randomchoice3 = random.choice([5,8,10])   #valeur que peut prendre le déplacement "x"
+		r3=random.random()
+		self.rect.x=2000+r3*1000-self.randomchoice3          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
+
 pygame.display.init()						                  #initialise tous mes modules pygame importés					
 pygame.font.init()											  #initialisation du module font
 
@@ -126,19 +150,22 @@ perso.add(Dino(fond))											#on ajoute Dino() qui prend le paramètre (fond)
 perso.draw(fenetre)												#On dessine le Dino sur la surface fenetre
 
 cactus = Mur()													#on instancie cactus de type Mur
-zozio = Mur2()													#on instancie zozio de type Mur2
+zozio = Mur2()
+zozio2 = Mur3()													#on instancie zozio de type Mur2
 
 cactus_groupe = pygame.sprite.Group()     						#on instancie un container de type groupSingle qui ne peut contenir qu'une objet
-cactus_groupe.add(cactus, zozio)    							#On ajoute cactus et zozio dans ce container
+cactus_groupe.add(cactus, zozio, zozio2)    							#On ajoute cactus et zozio dans ce container
 
 #initialisation des variables
+deplacement_vertical=105
 i=1
 compteur_de_point = 0
 compteur_de_tour = 0
 temps=0
 surface_score=0
-randomchoice1 = random.choice([5, 10, 20])					#initialisation des 2 random
+randomchoice1 = random.choice([5, 10, 20])					#initialisation des 3 random
 randomchoice2 = random.choice([5, 10, 20])
+randomchoice3 = random.choice([3, 5, 20])
 fin =  10000 + random.random()*100000						#temps de jeu aléatoire entre 10000ms et 110000ms
 print(fin)
 while temps<fin:											#Début de la boucle de jeu
@@ -159,9 +186,9 @@ while temps<fin:											#Début de la boucle de jeu
 			pygame.display.quit()
 		elif event.type == KEYDOWN:
 			if event.key == K_UP:
-				perso.sprite.rect.y = perso.sprite.rect.y - 100
+				perso.sprite.rect.y = perso.sprite.rect.y - deplacement_vertical
 			if event.key == K_DOWN:
-				perso.sprite.rect.y = perso.sprite.rect.y + 100
+				perso.sprite.rect.y = perso.sprite.rect.y + deplacement_vertical
 				print(perso.sprite.rect.y)
 		
 	fenetre.blit(fond,(0,0))            #affiche le fond
@@ -180,7 +207,8 @@ while temps<fin:											#Début de la boucle de jeu
 	if len(test)>0:
 		
 		randomchoice1 = random.choice([5, 10, 20])
-		randomchoice2 = random.choice([5, 10, 20])			
+		randomchoice2 = random.choice([5, 10, 20])	
+		randomchoice3 = random.choice([3, 5, 20])		
 		
 		for oeuf in test:
 			compteur_de_point+=1
@@ -210,7 +238,7 @@ else:
 	fenetre.blit(surface_message1,(800,400))
 	pygame.display.flip()
 
-pygame.time.wait(3000)
+# pygame.time.wait(3000)
 
-pygame.display.quit()
+# pygame.display.quit()
 
