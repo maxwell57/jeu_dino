@@ -29,7 +29,7 @@ class Dino2(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)		
 
 		self.image = pygame.image.load("dino2.png").convert_alpha() 
-		self.image = pygame.transform.smoothscale(self.image, taille_image)
+		self.image = pygame.transform.smoothscale(self.image, taille_image)		
 		self.rect = pygame.Rect(position_initial, self.image.get_size())          
 		
 	def blit(self, fenetre):
@@ -190,7 +190,7 @@ compteur_de_point = 0
 compteur_de_tour = 0
 temps=0
 surface_score=0
-randomchoice1 = 10				#initialisation des 3 random
+randomchoice1 = 10											#initialisation des 3 random
 randomchoice2 = 10
 randomchoice3 = 10
 fin =  10000 + random.random()*100000						#temps de jeu aléatoire entre 10000ms et 110000ms
@@ -205,9 +205,9 @@ sond_fond = pygame.mixer.music.load("9162.mp3")
 
 pygame.mixer.music.play(100,0)								#100 loops, débute à t=0
 
-pygame.key.set_repeat(40,30)								#répète l'event lorsque la touche est enfoncée
+pygame.key.set_repeat(40,10)								#répète l'event lorsque la touche est enfoncée
 
-while temps<10000000:											#Début de la boucle de jeu
+while temps<10000000:										#Début de la boucle de jeu
 	
 	pygame.time.Clock().tick(50)		
 
@@ -223,9 +223,9 @@ while temps<10000000:											#Début de la boucle de jeu
 	surface_message2 = font.render("BIEN JOUE !!", True, (0,0,0))
 	surface_message3 = font.render("MOYEN !!", True, (0,0,0))
 	surface_message4 = font.render("GAME OVER", True, (0,0,0))
+	surface_message5 = font.render("Tu as quand même tenu " +str(temps/1000)+" secondes", True, (0,0,0))
 	
-	
-	for event in pygame.event.get():								#gestion des évènements
+	for event in pygame.event.get():						#gestion des évènements
 		if event.type == QUIT:
 			pygame.display.quit()
 		elif event.type == KEYDOWN:
@@ -260,12 +260,24 @@ while temps<10000000:											#Début de la boucle de jeu
 
 	if len(test_game_over)>0:
 		fenetre.blit(surface_message4,(600,400))          #affiche game over
+		fenetre.blit(surface_message5,(300,500)) 
 		pygame.display.flip()
 		pygame.mixer.music.load("12468.mp3")				
 		pygame.mixer.music.play()						#envoi la musique game over
 		pygame.time.wait(5000)
 		pygame.mixer.quit()
 		pygame.display.quit()
+
+	elif ennemi.sprite.rect.x<-100:
+		fenetre.blit(surface_message4,(600,400)) 
+		fenetre.blit(surface_message5,(300,500))          #affiche game over
+		pygame.display.flip()
+		pygame.mixer.music.load("12468.mp3")				
+		pygame.mixer.music.play()						#envoi la musique game over
+		pygame.time.wait(5000)
+		pygame.mixer.quit()
+		pygame.display.quit()
+
 																	
 	elif len(test)>0:
 		choix_aleatoire_son=random.choice(["3739.mp3", "3739.mp3","3739.mp3" , "16925.mp3"])
