@@ -198,12 +198,13 @@ recul_ennemi=100
 print(fin)
 
 
-pygame.mixer.init()	
+pygame.mixer.init()
 
-sond_fond = pygame.mixer.music.load("9162.mp3")
+sond_fond = pygame.mixer.Sound("9162.ogg")
 
 
-pygame.mixer.music.play(100,0)								#100 loops, débute à t=0
+
+sond_fond.play(100,0)								#100 loops, débute à t=0
 
 pygame.key.set_repeat(40,10)								#répète l'event lorsque la touche est enfoncée
 
@@ -262,7 +263,7 @@ while temps<10000000:										#Début de la boucle de jeu
 		fenetre.blit(surface_message4,(600,400))          #affiche game over
 		fenetre.blit(surface_message5,(300,500)) 
 		pygame.display.flip()
-		pygame.mixer.music.load("12468.mp3")				
+		pygame.mixer.music.load("12468.ogg")				
 		pygame.mixer.music.play()						#envoi la musique game over
 		pygame.time.wait(5000)
 		pygame.mixer.quit()
@@ -272,7 +273,7 @@ while temps<10000000:										#Début de la boucle de jeu
 		fenetre.blit(surface_message4,(600,400)) 
 		fenetre.blit(surface_message5,(300,500))          #affiche game over
 		pygame.display.flip()
-		pygame.mixer.music.load("12468.mp3")				
+		pygame.mixer.music.load("12468.ogg")				
 		pygame.mixer.music.play()						#envoi la musique game over
 		pygame.time.wait(5000)
 		pygame.mixer.quit()
@@ -280,7 +281,7 @@ while temps<10000000:										#Début de la boucle de jeu
 
 																	
 	elif len(test)>0:
-		choix_aleatoire_son=random.choice(["3739.mp3", "3739.mp3","3739.mp3" , "16925.mp3"])
+		choix_aleatoire_son=random.choice(["3739.ogg", "3739.ogg","3739.ogg" , "16925.ogg"])
 												
 		
 		randomchoice1 = random.choice([5, 10, 20])
@@ -291,6 +292,8 @@ while temps<10000000:										#Début de la boucle de jeu
 			compteur_de_point+=1
 			compteur_de_tour+=1
 			oeuf.reset()
+			sond_oeuf = pygame.mixer.Sound(choix_aleatoire_son)
+			sond_oeuf.play(1,0)
 			# pygame.mixer.quit()
 			# pygame.mixer.init()
 			# pygame.mixer.music.load(choix_aleatoire_son)
