@@ -191,7 +191,7 @@ ennemi.add(Dino_ennemi())
 
 
 #initialisation des variables
-deplacement_vertical=75
+deplacement_vertical=10
 i=1
 compteur_de_point = 0
 compteur_de_tour = 0
@@ -212,7 +212,9 @@ sond_fond = pygame.mixer.music.load("9162.mp3")
 
 pygame.mixer.music.play(100,0)								#100 loops, débute à t=0
 
-while temps<fin:											#Début de la boucle de jeu
+pygame.key.set_repeat(40,30)								#répète l'event lorsque la touche est enfoncée
+
+while temps<10000000:											#Début de la boucle de jeu
 	
 	pygame.time.Clock().tick(50)		
 
@@ -221,13 +223,15 @@ while temps<fin:											#Début de la boucle de jeu
 	temps =  pygame.time.get_ticks()
 
 	#Définitions des surfaces de textes
-	surface_temps=font.render(str(temps),True,(0,0,0))
-	surface_font=font.render("Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour), True, (0,0,0))
-	surface_score=font.render("Temps de jeu écoulé, Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour)+" en "+str(temps/1000)+" secondes", True, (0,0,0))
+	surface_temps = font.render(str(temps),True,(0,0,0))
+	surface_font = font.render("Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour), True, (0,0,0))
+	surface_score = font.render("Temps de jeu écoulé, Dinozoscore :" + str(compteur_de_point) +"/"+ str(compteur_de_tour)+" en "+str(temps/1000)+" secondes", True, (0,0,0))
 	surface_message1 = font.render("PAS TERRIBLE !!", True, (0,0,0))
 	surface_message2 = font.render("BIEN JOUE !!", True, (0,0,0))
 	surface_message3 = font.render("MOYEN !!", True, (0,0,0))
-
+	surface_message4 = font.render("GAME OVER", True, (0,0,0))
+	
+	
 	for event in pygame.event.get():								#gestion des évènements
 		if event.type == QUIT:
 			pygame.display.quit()
@@ -259,8 +263,16 @@ while temps<fin:											#Début de la boucle de jeu
 
 
 	test = pygame.sprite.spritecollide(perso.sprite, cactus_groupe, False) #test la collision entre le rect "perso" et le rect "cactus"
-																			
-	if len(test)>0:
+	test_game_over = pygame.sprite.spritecollide(perso.sprite, ennemi, True) #test la collision entre le rect "perso" et le rect "ennemi"
+
+	if len(test_game_over)>0:
+		fenetre.blit(surface_message4,(600,400))
+		pygame.display.flip()
+		pygame.time.wait(3000)
+		pygame.mixer.quit()
+		pygame.display.quit()
+																	
+	elif len(test)>0:
 		choix_aleatoire_son=random.choice(["3739.mp3", "3739.mp3","3739.mp3" , "16925.mp3"])
 												
 		# pygame.mixer.music.load(choix_aleatoire_son)
