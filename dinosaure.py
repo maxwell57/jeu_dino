@@ -71,7 +71,7 @@ class Dino_ennemi(pygame.sprite.Sprite):											#créaction de la classe Dino
 
 	def mouvement(self):
 
-		self.rect.x=self.rect.x-10
+		self.rect.x=self.rect.x-1
 
 
 
@@ -209,7 +209,7 @@ pygame.mixer.init()
 sond_fond = pygame.mixer.music.load("9162.mp3")
 
 
-pygame.mixer.music.play(10,0)
+pygame.mixer.music.play(100,0)								#100 loops, débute à t=0
 
 while temps<fin:											#Début de la boucle de jeu
 	
@@ -245,6 +245,10 @@ while temps<fin:											#Début de la boucle de jeu
 	
 	cactus_groupe.draw(fenetre) 		#affiche les éléments du groupe sur la surface fenetre
 	ennemi.draw(fenetre)				#affiche le dino ennemi
+
+	for sprite in ennemi.sprites():
+		if sprite.mouvement() == True:
+			True
 
 	for sprite in cactus_groupe.sprites():
 		
