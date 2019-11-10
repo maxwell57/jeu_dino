@@ -293,7 +293,7 @@ while temps<10000000:										#Début de la boucle de jeu
 			compteur_de_tour+=1
 			oeuf.reset()
 			sond_oeuf = pygame.mixer.Sound(choix_aleatoire_son)
-			sond_oeuf.play(1,0)
+			sond_oeuf.play()
 			# pygame.mixer.quit()
 			# pygame.mixer.init()
 			# pygame.mixer.music.load(choix_aleatoire_son)
