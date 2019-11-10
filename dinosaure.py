@@ -199,9 +199,13 @@ while temps<fin:											#Début de la boucle de jeu
 		elif event.type == KEYDOWN:
 			if event.key == K_UP:
 				perso.sprite.rect.y = perso.sprite.rect.y - deplacement_vertical
+				if perso.sprite.rect.y<=0:
+					perso.sprite.rect.y=0
 			if event.key == K_DOWN:
 				perso.sprite.rect.y = perso.sprite.rect.y + deplacement_vertical
-				print(perso.sprite.rect.y)
+				if perso.sprite.rect.y>=700:
+					perso.sprite.rect.y=700
+				print(perso.sprite.rect.y)	
 		
 	fenetre.blit(fond,(0,0))            #affiche le fond
 	
