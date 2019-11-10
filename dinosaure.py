@@ -5,8 +5,8 @@ import random
 
 position_initial=(50,700)
 taille_image=(100,100)
-taille_ennemi=(500,500)
-position_initial_ennemi=(1200,300)
+taille_ennemi=(700,500)
+position_initial_ennemi=(1200,350)
 
 class Dino(pygame.sprite.Sprite):												#créaction de la classe Dino 
 
@@ -61,7 +61,7 @@ class Dino_ennemi(pygame.sprite.Sprite):											#créaction de la classe Dino
 	def __init__(self):																#attributs du Dino						
 
 		pygame.sprite.Sprite.__init__(self)											#initialisation de sprite
-		self.image = pygame.image.load("dino3.png").convert_alpha() 				#choix de l'image
+		self.image = pygame.image.load("ennemi.png").convert_alpha() 				#choix de l'image
 		self.image = pygame.transform.smoothscale(self.image, taille_ennemi)		#dimensionne l'image
 		self.rect = pygame.Rect(position_initial_ennemi, self.image.get_size())     #création du rectangle de la taille de l'image
 		
@@ -266,9 +266,11 @@ while temps<10000000:											#Début de la boucle de jeu
 	test_game_over = pygame.sprite.spritecollide(perso.sprite, ennemi, True) #test la collision entre le rect "perso" et le rect "ennemi"
 
 	if len(test_game_over)>0:
-		fenetre.blit(surface_message4,(600,400))
+		fenetre.blit(surface_message4,(600,400))          #affiche game over
 		pygame.display.flip()
-		pygame.time.wait(3000)
+		pygame.mixer.music.load("12468.mp3")				
+		pygame.mixer.music.play()						#envoi la musique game over
+		pygame.time.wait(5000)
 		pygame.mixer.quit()
 		pygame.display.quit()
 																	
