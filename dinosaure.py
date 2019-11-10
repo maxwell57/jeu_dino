@@ -5,12 +5,14 @@ import random
 
 position_initial=(50,700)
 taille_image=(100,100)
+taille_ennemi=(500,500)
+position_initial_ennemi=(1200,300)
 
 class Dino(pygame.sprite.Sprite):												#créaction de la classe Dino 
 
 	
 
-	def __init__(self, fond):													#attributs du Dino						
+	def __init__(self):													#attributs du Dino						
 
 		pygame.sprite.Sprite.__init__(self)										#initialisation de sprite
 		self.image = pygame.image.load("dino.png").convert_alpha() 				#choix de l'image
@@ -22,7 +24,7 @@ class Dino(pygame.sprite.Sprite):												#créaction de la classe Dino
 
 class Dino2(pygame.sprite.Sprite):
 
-	def __init__(self, fond):
+	def __init__(self):
 
 		pygame.sprite.Sprite.__init__(self)		
 
@@ -35,7 +37,7 @@ class Dino2(pygame.sprite.Sprite):
 
 class Dino3(pygame.sprite.Sprite):
 
-	def __init__(self, fond):
+	def __init__(self):
 
 		pygame.sprite.Sprite.__init__(self)	
 
@@ -47,6 +49,35 @@ class Dino3(pygame.sprite.Sprite):
 		fenetre.blit(self.image, (self.rect.x, self.rect.y))
 
 Dinos=[Dino, Dino2, Dino3]															#création d'une liste de classes
+
+
+
+
+
+class Dino_ennemi(pygame.sprite.Sprite):											#créaction de la classe Dino_ennemi
+
+	
+	
+	def __init__(self):																#attributs du Dino						
+
+		pygame.sprite.Sprite.__init__(self)											#initialisation de sprite
+		self.image = pygame.image.load("dino3.png").convert_alpha() 				#choix de l'image
+		self.image = pygame.transform.smoothscale(self.image, taille_ennemi)		#dimensionne l'image
+		self.rect = pygame.Rect(position_initial_ennemi, self.image.get_size())     #création du rectangle de la taille de l'image
+		
+	def blit(self, fenetre):
+		fenetre.blit(self.image, (self.rect.x, self.rect.y))
+
+
+	def mouvement(self):
+
+		self.rect.x=self.rect.x-10
+
+
+
+
+
+
 
 
 class Mur(pygame.sprite.Sprite):   													#oeuf glissant (cactus) classe qui hérite de pygame.sprite.Sprite
@@ -115,9 +146,9 @@ class Mur3(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
 		self.rect = pygame.Rect((5000,450), self.image.get_size())          
 
-	def mouvement(self, randomchoice2, temps):
+	def mouvement(self, randomchoice3, temps):
 		self.rect.x=self.rect.x-randomchoice3+2*math.sin(temps/1000)*math.cos(temps/500)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
-		self.rect.y=250*math.sin((self.rect.x)/150)+450										#permet le mouvement sinusoïdal de l'oeuf
+		self.rect.y=250*math.sin((self.rect.x)/150)+450											#permet le mouvement sinusoïdal de l'oeuf
 
 		if self.rect.x<=0:																		#si le rectangle sort de l'écran  (abscisse rect.x inferieur à 0) 
 			self.reset()																		#Alors on appelle reset() qui redéplace le rectangle a une position aléatoire
@@ -128,15 +159,15 @@ class Mur3(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 
 		self.randomchoice3 = random.choice([2,2,3,5,5,6,7,10,20])   #valeur que peut prendre le déplacement "x"
 		r3=random.random()
-		self.rect.x=2000+r3*2000-self.randomchoice3          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
+		self.rect.x=2000+r3*2000-self.randomchoice3          	#permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
 
-pygame.display.init()						                  #initialise tous mes modules pygame importés					
-pygame.font.init()											  #initialisation du module font
+pygame.display.init()						                 	 #initialise tous mes modules pygame importés					
+pygame.font.init()											 	 #initialisation du module font
 
-fenetre = pygame.display.set_mode((0, 0))					#initialise une surface nommée fenetre avec set_mode(size=(0, 0), flags=0, depth=0, display=0) -> Surface
-															#Si (0,0) est passé elle prend la résolution de l'écran courant
+fenetre = pygame.display.set_mode((0, 0))						#initialise une surface nommée fenetre avec set_mode(size=(0, 0), flags=0, depth=0, display=0) -> Surface
+																#Si (0,0) est passé elle prend la résolution de l'écran courant
 
-fond = pygame.image.load("foret2.jpg").convert()			#charge l'image et la converti dans un format spécifiqie à pygame
+fond = pygame.image.load("foret2.jpg").convert()				#charge l'image et la converti dans un format spécifiqie à pygame
 fond = pygame.transform.smoothscale(fond, (fond.get_width()//4, fond.get_height()//4))
 fenetre = pygame.display.set_mode(fond.get_size(), RESIZABLE)	#création d'une fenêtre de la taille de l'image "fond"
 
@@ -146,15 +177,18 @@ fenetre.blit(fond, (0, 0))										#blit permet d'afficher la fenêtre fond à 
 font=pygame.font.Font(pygame.font.get_default_font(), 50)		#on instancie une objet de type pygame.font.Font avec comme paramètre pygame.font.get_default_font() qui renvoie un string de taille 50
 
 perso =  pygame.sprite.GroupSingle()							#on instancie un container de type groupSingle qui ne peut contenir qu'un objet							
-perso.add(Dino(fond))											#on ajoute Dino() qui prend le paramètre (fond)
+perso.add(Dino())												#on ajoute Dino() qui prend le paramètre (fond)
 perso.draw(fenetre)												#On dessine le Dino sur la surface fenetre
 
 cactus = Mur()													#on instancie cactus de type Mur
-zozio = Mur2()
-zozio2 = Mur3()													#on instancie zozio de type Mur2
-
+zozio = Mur2()													#on instancie zozio de type Mur2
+zozio2 = Mur3()													#on instancie zozio2 de type Mur3
 cactus_groupe = pygame.sprite.Group()     						#on instancie un container de type groupSingle qui ne peut contenir qu'une objet
-cactus_groupe.add(cactus, zozio, zozio2)    							#On ajoute cactus et zozio dans ce container
+cactus_groupe.add(cactus, zozio, zozio2)    					#On ajoute cactus et zozio dans ce container
+
+ennemi = pygame.sprite.GroupSingle()										#on instancie l'ennemi
+ennemi.add(Dino_ennemi())
+
 
 #initialisation des variables
 deplacement_vertical=75
@@ -205,17 +239,18 @@ while temps<fin:											#Début de la boucle de jeu
 				perso.sprite.rect.y = perso.sprite.rect.y + deplacement_vertical
 				if perso.sprite.rect.y>=700:
 					perso.sprite.rect.y=700
-				print(perso.sprite.rect.y)	
+				# print(perso.sprite.rect.y)	
 		
 	fenetre.blit(fond,(0,0))            #affiche le fond
 	
 	cactus_groupe.draw(fenetre) 		#affiche les éléments du groupe sur la surface fenetre
+	ennemi.draw(fenetre)				#affiche le dino ennemi
 
 	for sprite in cactus_groupe.sprites():
 		
 			if sprite.mouvement(randomchoice1, temps) == True:
 				compteur_de_tour+=1
-				print(compteur_de_tour)
+				# print(compteur_de_tour)
 
 
 	test = pygame.sprite.spritecollide(perso.sprite, cactus_groupe, False) #test la collision entre le rect "perso" et le rect "cactus"
@@ -231,14 +266,14 @@ while temps<fin:											#Début de la boucle de jeu
 		for oeuf in test:
 			compteur_de_point+=1
 			oeuf.reset()
-			print(randomchoice1,randomchoice2,randomchoice3)
+			# print(randomchoice1,randomchoice2,randomchoice3)
 			compteur_de_tour+=1
 			# pygame.mixer.music.play()
 			
-		perso.add(Dinos[i](fond))
+		perso.add(Dinos[i]())					#fait asser de dino à dino2 puis dino3
 		i=i+1
 		if i>2:
-			i=0
+			i=0										#retour à dino
 	perso.draw(fenetre)
 
 	fenetre.blit(surface_font,(0, 0))
