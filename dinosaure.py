@@ -84,13 +84,13 @@ class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 
 		pygame.sprite.Sprite.__init__(self)
 
-		self.randomchoice2 = random.choice([5, 10, 20])
+		self.randomchoice2 = random.choice([2,2,3,5,5,6,7,10,20])
 		self.image = pygame.image.load("oeuf.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
 		self.rect = pygame.Rect((3000,450), self.image.get_size())          
 
 	def mouvement(self, randomchoice2, temps):
-		self.rect.x=self.rect.x-randomchoice2+math.cos(temps/500)*math.cos(temps/1000)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
+		self.rect.x=self.rect.x-randomchoice2+1.5*math.cos(temps/500)*math.cos(temps/1000)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
 		self.rect.y=250*math.cos((self.rect.x)/150)+250											#permet le mouvement sinusoïdal de l'oeuf
 
 		if self.rect.x<=0:																		#si le rectangle sort de l'écran  (abscisse rect.x inferieur à 0) 
@@ -100,7 +100,7 @@ class Mur2(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		
 	def reset(self):
 
-		self.randomchoice2 = random.choice([5,5,8,8,9,10])   #valeur que peut prendre le déplacement "x"
+		self.randomchoice2 = random.choice([2,2,3,5,5,6,7,10,20])   #valeur que peut prendre le déplacement "x"
 		r2=random.random()
 		self.rect.x=2000+r2*1000-self.randomchoice2          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
 
@@ -110,13 +110,13 @@ class Mur3(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 
 		pygame.sprite.Sprite.__init__(self)
 
-		self.randomchoice2 = random.choice([5, 10, 20])
+		self.randomchoice3 = random.choice([2,2,3,5,5,6,7,10,20])
 		self.image = pygame.image.load("oeuf.png").convert_alpha()
 		self.image = pygame.transform.smoothscale(self.image,(self.image.get_width()//10, self.image.get_height()//10))
 		self.rect = pygame.Rect((5000,450), self.image.get_size())          
 
 	def mouvement(self, randomchoice2, temps):
-		self.rect.x=self.rect.x-randomchoice2+math.sin(temps/1000)*math.cos(temps/500)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
+		self.rect.x=self.rect.x-randomchoice3+2*math.sin(temps/1000)*math.cos(temps/500)*10		#permet la variation du point de départ de l'oeuf et randomise son déplacement "x"
 		self.rect.y=250*math.sin((self.rect.x)/150)+450										#permet le mouvement sinusoïdal de l'oeuf
 
 		if self.rect.x<=0:																		#si le rectangle sort de l'écran  (abscisse rect.x inferieur à 0) 
@@ -126,7 +126,7 @@ class Mur3(pygame.sprite.Sprite):     											#oeuf volant (zozio) classe qui
 		
 	def reset(self):
 
-		self.randomchoice3 = random.choice([5,8,8,8,10,10,20])   #valeur que peut prendre le déplacement "x"
+		self.randomchoice3 = random.choice([2,2,3,5,5,6,7,10,20])   #valeur que peut prendre le déplacement "x"
 		r3=random.random()
 		self.rect.x=2000+r3*2000-self.randomchoice3          #permet de décaler l'apparition de l'oeuf de façon aléatoire à son apparition
 
@@ -164,8 +164,8 @@ compteur_de_tour = 0
 temps=0
 surface_score=0
 randomchoice1 = random.choice([5, 10, 20])					#initialisation des 3 random
-randomchoice2 = random.choice([5, 10, 20])
-randomchoice3 = random.choice([3, 5, 20])
+randomchoice2 = random.choice([2,2,3,5,5,6,7,10,20])
+randomchoice3 = random.choice([2,2,3,5,5,6,7,10,20])
 fin =  10000 + random.random()*100000						#temps de jeu aléatoire entre 10000ms et 110000ms
 print(fin)
 
@@ -175,11 +175,11 @@ pygame.mixer.init()
 sond_fond = pygame.mixer.music.load("9162.mp3")
 
 
-pygame.mixer.music.play()
+pygame.mixer.music.play(10,0)
 
 while temps<fin:											#Début de la boucle de jeu
 	
-	pygame.time.Clock().tick(75)		
+	pygame.time.Clock().tick(50)		
 
 	
 
@@ -218,17 +218,18 @@ while temps<fin:											#Début de la boucle de jeu
 																			
 	if len(test)>0:
 		choix_aleatoire_son=random.choice(["3739.mp3", "3739.mp3","3739.mp3" , "16925.mp3"])
-												#initialise le module mixer
-		pygame.mixer.music.load(choix_aleatoire_son)
+												
+		# pygame.mixer.music.load(choix_aleatoire_son)
 		randomchoice1 = random.choice([5, 10, 20])
-		randomchoice2 = random.choice([5, 10, 20])	
-		randomchoice3 = random.choice([3, 5, 20])		
+		randomchoice2 = random.choice([2,2,3,5,5,6,7,10,20])	
+		randomchoice3 = random.choice([2,2,3,5,5,6,7,10,20])		
 		
 		for oeuf in test:
 			compteur_de_point+=1
 			oeuf.reset()
+			print(randomchoice1,randomchoice2,randomchoice3)
 			compteur_de_tour+=1
-			pygame.mixer.music.play()
+			# pygame.mixer.music.play()
 			
 		perso.add(Dinos[i](fond))
 		i=i+1
