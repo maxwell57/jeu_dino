@@ -197,10 +197,11 @@ compteur_de_point = 0
 compteur_de_tour = 0
 temps=0
 surface_score=0
-randomchoice1 = random.choice([5, 10, 20])					#initialisation des 3 random
-randomchoice2 = random.choice([2,2,3,5,5,6,7,10,20])
-randomchoice3 = random.choice([2,2,3,5,5,6,7,10,20])
+randomchoice1 = 10				#initialisation des 3 random
+randomchoice2 = 10
+randomchoice3 = 10
 fin =  10000 + random.random()*100000						#temps de jeu aléatoire entre 10000ms et 110000ms
+recul_ennemi=100
 print(fin)
 
 
@@ -273,7 +274,7 @@ while temps<fin:											#Début de la boucle de jeu
 			# print(randomchoice1,randomchoice2,randomchoice3)
 			compteur_de_tour+=1
 			# pygame.mixer.music.play()
-			
+			ennemi.sprite.rect.x+=recul_ennemi
 		perso.add(Dinos[i]())					#fait asser de dino à dino2 puis dino3
 		i=i+1
 		if i>2:
