@@ -282,17 +282,28 @@ while temps<10000000:										#Début de la boucle de jeu
 	elif len(test)>0:
 		choix_aleatoire_son=random.choice(["3739.mp3", "3739.mp3","3739.mp3" , "16925.mp3"])
 												
-		# pygame.mixer.music.load(choix_aleatoire_son)
+		
 		randomchoice1 = random.choice([5, 10, 20])
 		randomchoice2 = random.choice([2,2,3,5,5,6,7,10,20])	
 		randomchoice3 = random.choice([2,2,3,5,5,6,7,10,20])		
 		
 		for oeuf in test:
 			compteur_de_point+=1
-			oeuf.reset()
-			# print(randomchoice1,randomchoice2,randomchoice3)
 			compteur_de_tour+=1
+			oeuf.reset()
+			# pygame.mixer.quit()
+			# pygame.mixer.init()
+			# pygame.mixer.music.load(choix_aleatoire_son)
+			# print(randomchoice1,randomchoice2,randomchoice3)			
 			# pygame.mixer.music.play()
+			
+			# pygame.time.Clock().tick(1000)
+
+			# sond_fond = pygame.mixer.music.load("9162.mp3")
+			# pygame.mixer.music.play(100,0)								#100 loops, débute à t=0
+
+
+
 			ennemi.sprite.rect.x+=recul_ennemi
 		perso.add(Dinos[2]())
 		# perso.add(Dinos[i]())					#fait passer de dino à dino2 puis dino3
