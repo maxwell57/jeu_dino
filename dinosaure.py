@@ -6,7 +6,7 @@ import random
 position_initial=(50,700)
 taille_image=(100,100)
 taille_ennemi=(700,500)
-position_initial_ennemi=(1200,350)
+position_initial_ennemi=(1200,320)
 
 class Dino(pygame.sprite.Sprite):												#créaction de la classe Dino 
 
@@ -51,9 +51,6 @@ class Dino3(pygame.sprite.Sprite):
 Dinos=[Dino, Dino2, Dino3]															#création d'une liste de classes
 
 
-
-
-
 class Dino_ennemi(pygame.sprite.Sprite):											#créaction de la classe Dino_ennemi
 
 	
@@ -70,14 +67,9 @@ class Dino_ennemi(pygame.sprite.Sprite):											#créaction de la classe Dino
 
 
 	def mouvement(self):
-
+		
+			
 		self.rect.x=self.rect.x-1
-
-
-
-
-
-
 
 
 class Mur(pygame.sprite.Sprite):   													#oeuf glissant (cactus) classe qui hérite de pygame.sprite.Sprite
@@ -103,8 +95,9 @@ class Mur(pygame.sprite.Sprite):   													#oeuf glissant (cactus) classe q
 
 		randomchoice3 = random.choice([740, 600, 300, 150])						#initialisation des valeurs possibles de "y" pour l'oeuf
 		
+		
+		self.randomchoice1=random.choice([5, 10, 20])							#
 		r1=random.random()
-		self.randomchoice1=random.choice([5, 10, 20])							#initialisation des valeurs possibles de 
 		self.rect.x = 2500+r1*1000
 		self.rect.y = randomchoice3												#
 				
@@ -289,10 +282,11 @@ while temps<10000000:											#Début de la boucle de jeu
 			compteur_de_tour+=1
 			# pygame.mixer.music.play()
 			ennemi.sprite.rect.x+=recul_ennemi
-		perso.add(Dinos[i]())					#fait asser de dino à dino2 puis dino3
-		i=i+1
-		if i>2:
-			i=0										#retour à dino
+		perso.add(Dinos[2]())
+		# perso.add(Dinos[i]())					#fait passer de dino à dino2 puis dino3
+		# i=i+1
+		# if i>2:
+		# 	i=0										#retour à dino
 	perso.draw(fenetre)
 
 	fenetre.blit(surface_font,(0, 0))
